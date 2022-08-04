@@ -1,13 +1,119 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1;
+  overflow: auto;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+input, textarea, select, button { font-size: 100% }
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #4285f4;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px white inset !important;
+}
+
+// 模拟链接
+.link {
+  color: #1890ff;
+  transition: color .3s;
+  cursor: pointer;
+  &:hover {
+    color: #40a9ff;
+  }
+  &[disabled] {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+}
+
+// 溢出隐藏
+.ellipsis-1 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis-2 {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /*! autoprefixer: ignore next */
+  -webkit-box-orient:vertical;
+}
+
+.ellipsis-3 {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /*! autoprefixer: ignore next */
+  -webkit-box-orient:vertical;
+}
+
+.ellipsis-4 {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  /*! autoprefixer: ignore next */
+  -webkit-box-orient:vertical;
+}
+
+//字数统计
+.letter-count {
+  display: block;
+  line-height: 1;
+  font-size: 12px;
+  text-align: right;
+  &.letter-red {
+    color: #f5222d;
+  }
+}
+
+//让表单提示小一点
+body .ant-form-extra, body .ant-form-explain {
+  font-size: 12px;
+}
+
+.ant-form .ant-form-item {
+  margin-bottom: 10px;
+}
+
+//避免表格被撑的对不齐
+.ant-table {
+  th, td {
+    word-break: break-all;
+  }
+}
+//清除浮动
+.clearfix:after{
+  content: "";
+  display: block;
+  height: 0;
+  clear:both;
+  visibility: hidden;
+}
+.clearfix{
+  *zoom: 1;
 }
