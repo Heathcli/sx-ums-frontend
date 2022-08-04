@@ -10,42 +10,46 @@ import WhiteSpace from '../../../UIComponent/WhiteSpace'
 
 import columns from './columns';
 import './index.less'
+import { IUser } from './types';
 
 export default function UserList() {
-  const dataSource = [
+  const defalutUserList = [
     {
-      key: '1',
-      name: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
+      studentId:201910428215,
+      name:'string',
+      grade:2019,
+      college:'电子信息',
+      professionalClass:'通信2班',
+      role:'软件',
+      position:'方向组长'
     },
     {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
+      studentId:201910428216,
+      name:'string',
+      grade:2019,
+      college:'电子信息',
+      professionalClass:'通信2班',
+      role:'软件',
+      position:'方向组长'
     },
     {
-      key: '3',
-      name: '胡彦斌2',
-      age: 18,
-      address: '西湖区湖底公园1号',
-    },
-    {
-      key: '4',
-      name: '胡彦祖2',
-      age: 58,
-      address: '西湖区湖底公园1号',
+      studentId:201910428217,
+      name:'string',
+      grade:2019,
+      college:'电子信息',
+      professionalClass:'通信2班',
+      role:'软件',
+      position:'方向组长'
     }
   ];
-  const [userList, setUserList] = useState([])
+  const [userList, setUserList] = useState<IUser[]>(defalutUserList)
   const [gradeList, setGradeList] = useState([])
   const [roleList, setRoleList] = useState([])
   const [collegeList, setCollegeList] = useState([])
   const [positionList, setPositionList] = useState([])
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    getList()
+    // getList()
   }, [])
 
   const getList = () => {
@@ -63,11 +67,17 @@ export default function UserList() {
   return (
     <div>
       <SubHeader />
-      <SubFilter />
+      <SubFilter 
+      gradeList={gradeList}
+      roleList={roleList}
+      collegeList={collegeList}
+      positionList={positionList}
+      />
       {/* <WhiteSpace height={40} /> */}
       <SxTable
-        dataSource={dataSource}
+        dataSource={userList}
         columns={columns}
+        loading
       />
     </div>
   )

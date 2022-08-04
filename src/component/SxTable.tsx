@@ -1,4 +1,5 @@
 import { Table } from 'antd';
+import  { v4 }  from 'uuid'
 import React from 'react'
 
 export default function SxTable(props: any) {
@@ -15,6 +16,7 @@ export default function SxTable(props: any) {
           cancelSort: '取消排序',
         }
       }
+      rowKey={()=> v4()}
     />
 
   )

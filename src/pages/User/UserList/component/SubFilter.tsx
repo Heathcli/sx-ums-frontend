@@ -2,12 +2,20 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Form, Input, Select } from 'antd'
 import qs from 'qs'
 import React, { useEffect } from 'react'
+import { IFilterList } from '../../../../types'
 import { ISubFilter } from '../types'
 
 const Item = Form.Item
 const { Option } = Select
 const { Search } = Input;
-export default function SubFilter() {
+interface IProps<T> {
+    gradeList:T[],
+    roleList:T[],
+    collegeList:T[],
+    positionList:T[]
+}
+
+export default function SubFilter(props:IProps<IFilterList>) {
 
     const [form] = Form.useForm()
     useEffect(() => {
@@ -38,9 +46,9 @@ export default function SubFilter() {
     }
     return (
         <div style={{ padding: 17 }}>
-            <Form layout="inline" form={form} style={{display:'flex',alignItems:'center'}}>
+            <Form layout="inline" form={form} style={{ display: 'flex', alignItems: 'center' }}>
                 <Item label="搜索" name="search">
-                    <Search 
+                    <Search
                         allowClear
                         placeholder="姓名/学号"
                         onSearch={submit}
