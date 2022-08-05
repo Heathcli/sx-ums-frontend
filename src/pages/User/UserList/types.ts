@@ -10,8 +10,13 @@ export interface IUser {
     studentId:number,
     name:string,
     grade:number,
+    gradeId:number,
     college:string,
+    collegeId:number,
     professionalClass:string,
     role:string,
-    position:string
+    roleId:number,
+    position:string,
+    positionId:number,
+    password?:string
 }

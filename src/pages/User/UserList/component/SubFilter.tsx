@@ -30,7 +30,6 @@ export default function SubFilter(props:IProps<IFilterList>) {
 
     const submit = () => {
         form.validateFields().then((values: ISubFilter) => {
-            console.log(values);
             let filter: ISubFilter = {}
             for (let attr in values) {
                 if (values[attr]) {

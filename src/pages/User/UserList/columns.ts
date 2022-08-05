@@ -6,6 +6,7 @@ const column: ColumnsType<IUser> = [
         title: '学号',
         dataIndex: 'studentId',
         key: 'studentId',
+        sorter: (a, b) => a.studentId - b.studentId,
     },
     {
         title: '姓名',

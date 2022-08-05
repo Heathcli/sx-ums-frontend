@@ -2,10 +2,11 @@ import { Table } from 'antd';
 import  { v4 }  from 'uuid'
 import React from 'react'
 
-export default function SxTable(props: any) {
+export default function SxTable(props:any) {
   return (
     <Table
       bordered
+      loading={props.loading}
       dataSource={props.dataSource}
       columns={props.columns}
       pagination={{ position: ['bottomCenter'], pageSize: 20 }}
