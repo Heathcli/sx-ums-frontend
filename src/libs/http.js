@@ -10,6 +10,7 @@ const success = (res, resolve, reject) => {
         resolve(res.data.data);
     } else if (lodash.get(res, 'data.msg')) {
         reject(res.data.msg);
+        message.error(res.data.msg);
     } else {
         reject('系统异常');
         message.error('系统异常');

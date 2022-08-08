@@ -1,29 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import { IUser } from '../../pages/User/UserList/types'
-import http from '../../libs/http'
+import { UserInfo } from '../../types'
 
 interface UserState {
-  userInfo: IUser | {}
+  userInfo: UserInfo
 }
 
 const initialState: UserState = {
-  userInfo: {},
+  userInfo: {} as UserInfo,
 }
 
-export const counterSlice = createSlice({
+export const userInfoSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers: {
     setUserInfo: (state, action = { payload: {}, type: '' }) => {
-      state = action.payload
+      state.userInfo = Object.assign({},action.payload)
     }
   },
 })
 
-export const { setUserInfo } = counterSlice.actions
+export const { setUserInfo } = userInfoSlice.actions
 
-export const selectCount = (state: RootState) => state.userInfo
+export const selectUser = (state: RootState) => state.userInfo
 
-export default counterSlice.reducer
+export default userInfoSlice.reducer

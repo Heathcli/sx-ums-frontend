@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userRedecer from '../slice/userSlice'
+import userInfoRedecer from '../slice/userSlice'
 // ...
 
 export const store = configureStore({
   reducer: {
-    userInfo:userRedecer
+    userInfo:userInfoRedecer
   },
+  middleware:(getDefalutMiddleware)=>
+    getDefalutMiddleware({
+      serializableCheck:false
+    })
 })
 
 export type RootState = ReturnType<typeof store.getState>

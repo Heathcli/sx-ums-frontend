@@ -12,7 +12,7 @@ export default function SubHeader() {
                 <Breadcrumb.Item className='breadcrumb'>用户管理</Breadcrumb.Item>
                 <Breadcrumb.Item className='breadcrumb'>用户列表</Breadcrumb.Item>
             </Breadcrumb>
-            <Button type="primary" onClick={()=>navigate('/user-list/add')}>新增</Button>
+            <Button type="primary" onClick={()=>navigate('/user-manage/add')}>新增</Button>
         </div>
     )
 }

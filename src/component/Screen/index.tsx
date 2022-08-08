@@ -3,17 +3,51 @@ import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/i
 import { Breadcrumb, Layout, Menu, MenuProps } from 'antd';
 import './index.less'
 import { Link, Outlet } from 'react-router-dom';
+import { useEffect } from "react";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUserInfo } from "../../redux/slice/userSlice";
+import http from "../../libs/http";
+import { useNavigate } from "react-router-dom";
+import { RouterTree, RouterTreeMock } from '../Router/type';
 
+
+type MenuItem = Required<MenuProps>['items'][number];
 const { Header, Content, Footer, Sider } = Layout;
+const rootSubmenuKeys = ['home'];
 
 const Screen: React.FC = () => {
 
-    const rootSubmenuKeys = ['home'];
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-    const [openKeys, setOpenKeys] = useState(['home']);
+  const [openKeys, setOpenKeys] = useState(['home']);
 
-    type MenuItem = Required<MenuProps>['items'][number];
+  useEffect(()=>{
+    dispatch(setUserInfo({
+        studentId:1234,
+        name:'string',
+        role:'string',
+        roleId:43434,
+        position:'string',
+        positionId:1
+      }))
+  },[])
 
+  const getUserInfo = () => {
+      return {
+        studentId:1234,
+        name:'string',
+        role:'string',
+        roleId:43434,
+        position:'string',
+        positionId:1
+      }
+     http.post('').then((res)=>{
+      return res
+    }).catch(()=>{
+    //   navigate('/login')
+    })
+  }
     const getItem = (
         label: React.ReactNode,
         key: React.Key,
@@ -29,11 +63,9 @@ const Screen: React.FC = () => {
             type,
         } as MenuItem;
     }
-
     const linkRoute = (title: string, route: string): React.ReactNode => {
         return <Link to={route}>{title}</Link>
     }
-
     const items: MenuItem[] = [
         getItem(linkRoute('首页', 'home'), 'home', <UserOutlined />),
         getItem('用户管理', 'user', <UserOutlined />, [
@@ -41,6 +73,25 @@ const Screen: React.FC = () => {
         ])
     ];
 
+    const itemt: any = (RouterTreeMock: RouterTree[] = [],arr:MenuItem[] = []) => {
+        RouterTreeMock.map((item)=>{
+            if(!item.children) {
+                if(item.view) {
+                    const linkitem =  getItem(linkRoute(item.name, item.route), item.route, <UserOutlined />)
+                    arr.push(linkitem as never)
+                }
+            }else{
+                if(item.view) {
+                    const linkitem =  getItem(item.name,item.route, <UserOutlined />,itemt(item.children,[]))
+                    arr.push(linkitem as never)
+                }
+            }
+        })
+        return arr
+    }
+
+    console.log(itemt(RouterTreeMock,[]));
+    
     const onOpenChange: MenuProps['onOpenChange'] = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
         if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
@@ -70,7 +121,7 @@ const Screen: React.FC = () => {
                     theme='dark'
                     openKeys={openKeys}
                     onOpenChange={onOpenChange}
-                    items={items}
+                    items={itemt(RouterTreeMock,[])}
                 />
             </Sider>
             <Layout style={{ marginLeft: 200 }}>

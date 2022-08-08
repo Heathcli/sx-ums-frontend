@@ -14,6 +14,7 @@ import { IUser } from './types';
 
 import columns from './columns';
 import './index.less'
+import { IFilterList } from '../../../types';
 
 
 
@@ -61,10 +62,10 @@ export default function UserList() {
   ];
   const [newColumns,setNewColumns] = useState<ColumnsType<IUser>>(columns)
   const [userList, setUserList] = useState<IUser[]>(defalutUserList)
-  const [gradeList, setGradeList] = useState([])
-  const [roleList, setRoleList] = useState([])
-  const [collegeList, setCollegeList] = useState([])
-  const [positionList, setPositionList] = useState([])
+  const [gradeList, setGradeList] = useState<IFilterList[]>([])
+  const [roleList, setRoleList] = useState<IFilterList[]>([])
+  const [collegeList, setCollegeList] = useState<IFilterList[]>([])
+  const [positionList, setPositionList] = useState<IFilterList[]>([])
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -78,7 +79,7 @@ export default function UserList() {
       title:'操作',
       render:(item:IUser)=>{
         return <div className='operation'>
-           <Button type="link" onClick={()=>navigate(`/user-list/mod/${item.studentId}`)}>编辑</Button>
+           <Button type="link" onClick={()=>navigate(`/user-manage/mod/${item.studentId}`)}>编辑</Button>
            <Button danger type="link" onClick={()=>{}}>删除</Button>
         </div>
       }
