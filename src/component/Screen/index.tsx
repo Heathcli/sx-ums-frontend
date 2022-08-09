@@ -13,7 +13,7 @@ import { RouterTree, RouterTreeMock } from '../Router/type';
 
 type MenuItem = Required<MenuProps>['items'][number];
 const { Header, Content, Footer, Sider } = Layout;
-const rootSubmenuKeys = ['home'];
+const rootSubmenuKeys = ['home']
 
 const Screen: React.FC = () => {
 
