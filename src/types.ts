@@ -3,12 +3,21 @@ export interface IFilterList {
     code:number,
     name:string|number
 }
-
-export interface UserInfo {
+// 当前登录用户的信息
+export interface IUserInfo {
     studentId:number,
     name:string,
     role:string,
     roleId:number,
     position:string,
-    positionId:number
+    positionId:number,
+    routeTree:IRouterTree[]
+}
+
+// 路由
+export interface IRouterTree {
+    name: string,
+    route: string,
+    view?:boolean,
+    children?: IRouterTree[]
 }

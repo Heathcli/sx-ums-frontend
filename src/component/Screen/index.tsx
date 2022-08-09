@@ -1,53 +1,37 @@
-import React, { useState } from 'react';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, MenuProps } from 'antd';
+import React, { ReactNode, useState } from 'react';
+import { createFromIconfontCN, HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { Layout, Menu, MenuProps } from 'antd';
 import './index.less'
 import { Link, Outlet } from 'react-router-dom';
-import { useEffect } from "react";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUserInfo } from "../../redux/slice/userSlice";
-import http from "../../libs/http";
-import { useNavigate } from "react-router-dom";
-import { RouterTree, RouterTreeMock } from '../Router/type';
+import { useAppSelector } from "../../redux/hooks";
+import { selectUser } from "../../redux/slice/userSlice";
+import { IRouterTree } from '../../types';
 
 
 type MenuItem = Required<MenuProps>['items'][number];
+type RoutesMapIcon = {
+    [index: string]: ReactNode,
+}
 const { Header, Content, Footer, Sider } = Layout;
-const rootSubmenuKeys = ['home']
+// 所有可展开节点key值
+const rootSubmenuKeys = ['user-manage']
+const defaultSelectedKeys = [window.location.pathname]
+const routesMapIcon:RoutesMapIcon = {
+    '/home': <HomeOutlined />,
+    'user-manage': <UserOutlined /> 
+}
+
+// 此处规则:  /route ---->  所有叶子节点
+//           route  ---->  可展开节点
+// 区分是为了设置默认选项，/route需设置openKeys，route需设置defaultSelectedKeys
 
 const Screen: React.FC = () => {
 
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+    const { userInfo } = useAppSelector(selectUser)
 
-  const [openKeys, setOpenKeys] = useState(['home']);
-
-  useEffect(()=>{
-    dispatch(setUserInfo({
-        studentId:1234,
-        name:'string',
-        role:'string',
-        roleId:43434,
-        position:'string',
-        positionId:1
-      }))
-  },[])
-
-  const getUserInfo = () => {
-      return {
-        studentId:1234,
-        name:'string',
-        role:'string',
-        roleId:43434,
-        position:'string',
-        positionId:1
-      }
-     http.post('').then((res)=>{
-      return res
-    }).catch(()=>{
-    //   navigate('/login')
-    })
-  }
+    const [openKeys, setOpenKeys] = useState(window.location.pathname.split('/'));
+    console.log(window.location.pathname.split('/'));
+    
     const getItem = (
         label: React.ReactNode,
         key: React.Key,
@@ -66,30 +50,29 @@ const Screen: React.FC = () => {
     const linkRoute = (title: string, route: string): React.ReactNode => {
         return <Link to={route}>{title}</Link>
     }
-    // const items: MenuItem[] = [
-    //     getItem(linkRoute('首页', 'home'), 'home', <UserOutlined />),
-    //     getItem('用户管理', 'user', <UserOutlined />, [
-    //         getItem(linkRoute('用户列表', 'user-list'), 'user-list'),
-    //     ])
-    // ];
 
-    const dynamicItems:any = (RouterTreeMock: RouterTree[] = [],arr:MenuItem[] = []) => {
-        RouterTreeMock.map((item)=>{
-            if(!item.children) {
-                if(item.view) {
-                    const linkItem =  getItem(linkRoute(item.name, item.route), item.route, <UserOutlined />)
+    const dynamicItems: any = (RouterTree: IRouterTree[] = [], arr: MenuItem[] = []) => {
+        RouterTree.map((item) => {
+            if (!item.children) {
+                if (item.view) {
+                    const linkItem = getItem(linkRoute(item.name, item.route), item.route, routesMapIcon[item.route])
                     arr.push(linkItem)
                 }
-            }else{
-                if(item.view) {
-                    const linkItem =  getItem(item.name,item.route, <UserOutlined />,dynamicItems(item.children,[]))
+            } else {
+                if (item.view) {
+                    const linkItem = getItem(item.name, item.route, routesMapIcon[item.route], dynamicItems(item.children, []))
                     arr.push(linkItem)
                 }
             }
         })
         return arr
     }
-    
+
+    const renderIcon = (url: string = '') => createFromIconfontCN({
+        scriptUrl: url,
+    });
+
+
     const onOpenChange: MenuProps['onOpenChange'] = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
         if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
@@ -113,13 +96,14 @@ const Screen: React.FC = () => {
                     bottom: 0,
                 }}
             >
-                <div className="logo"></div>
+                <div className="logo">赛行工作室</div>
                 <Menu
                     mode="inline"
                     theme='dark'
+                    defaultSelectedKeys={defaultSelectedKeys}
                     openKeys={openKeys}
                     onOpenChange={onOpenChange}
-                    items={dynamicItems(RouterTreeMock,[])}
+                    items={dynamicItems(userInfo.routeTree, [])}
                 />
             </Sider>
             <Layout style={{ marginLeft: 200 }}>

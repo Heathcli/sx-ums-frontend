@@ -1,5 +1,4 @@
 import { Button, Form, Input, message, Select } from 'antd'
-import qs from 'qs'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import http from '../../../../libs/http'
@@ -29,7 +28,7 @@ export default function Edit() {
     }, [])
 
     const goback = () => {
-        navigate('/user-list')
+        navigate('/user-manage/list')
     }
 
     const addInit = () => {

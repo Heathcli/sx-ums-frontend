@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import { UserInfo } from '../../types'
+import { IUserInfo } from '../../types'
 
 interface UserState {
-  userInfo: UserInfo
+  userInfo: IUserInfo
 }
 
 const initialState: UserState = {
-  userInfo: {} as UserInfo,
+  userInfo: {} as IUserInfo,
 }
 
 export const userInfoSlice = createSlice({

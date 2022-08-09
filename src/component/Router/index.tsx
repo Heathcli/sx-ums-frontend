@@ -7,34 +7,29 @@ import UserList from '../../pages/User/UserList'
 import Edit from '../../pages/User/UserList/Edit'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUser } from '../../redux/slice/userSlice'
-import NotFound from '../../pages/Home/NotFound'
-import { RoutesMap, RouterTree, RouterTreeMock } from './type'
+import NotFound from '../../pages/NotFound'
 
-const routesMap:RoutesMap = {
-    '/home':<Home />,
-    '/user-manage/list':<UserList />,
-    '/user-manage/add':<Edit />,
-    '/user-manage/mod/:id':<Edit />
-}
+const routesMapComponent: any = [
+    { '/home': <Home /> },
+    { '/user-manage/list': <UserList /> },
+    { '/user-manage/add': <Edit /> },
+    { '/user-manage/mod/:id': <Edit /> }
+]
 
 export default function Router() {
     const { userInfo } = useAppSelector(selectUser)
 
-    const renderRouter:any = (RouterTree:RouterTree[]) => {
-        return RouterTree.map(item =>{
-            if(item.children?.length) {
-                return renderRouter(item.children)
-            } else {
-                return <Route key={item.route} path={item.route} element={routesMap[item.route]}></Route>
-            }
+    const renderRouter: any = () => {
+        return routesMapComponent.map((item:any)=>{
+            return <Route path={Object.keys(item)[0]} key={Object.keys(item)[0]} element={Object.values(item)[0] as ReactNode}></Route>
         })
     }
-    
+
     return (
         <Routes>
             <Route path='/' element={<Navigate to='home' />}></Route>
             <Route path='/' element={<Screen />}>
-                {renderRouter(RouterTreeMock)}
+                {renderRouter()}
             </Route>
             <Route path='/login' element={<Login />}></Route>
             <Route path='/error' element={<NotFound />}></Route>

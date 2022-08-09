@@ -1,9 +1,8 @@
 import { message } from 'antd'
 import lodash from 'lodash'
-import qs from 'qs'
 import axios from 'axios'
 
-const instance = axios.create({ baseURL: 'http://jinshiweian.com' })
+const instance = axios.create({ baseURL: 'http://localhost:3333/' })
 
 const success = (res, resolve, reject) => {
     if (res.data.code === 0) {
