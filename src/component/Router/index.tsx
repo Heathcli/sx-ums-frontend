@@ -8,9 +8,9 @@ import Edit from '../../pages/User/UserList/Edit'
 import { useAppSelector } from '../../redux/hooks'
 import { selectUser } from '../../redux/slice/userSlice'
 import NotFound from '../../pages/Home/NotFound'
-import { iroutes, RouterTree, RouterTreeMock } from './type'
+import { RoutesMap, RouterTree, RouterTreeMock } from './type'
 
-const routes:iroutes = {
+const routesMap:RoutesMap = {
     '/home':<Home />,
     '/user-manage/list':<UserList />,
     '/user-manage/add':<Edit />,
@@ -25,7 +25,7 @@ export default function Router() {
             if(item.children?.length) {
                 return renderRouter(item.children)
             } else {
-                return <Route key={item.route} path={item.route} element={routes[item.route]}></Route>
+                return <Route key={item.route} path={item.route} element={routesMap[item.route]}></Route>
             }
         })
     }

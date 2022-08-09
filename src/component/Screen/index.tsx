@@ -66,31 +66,29 @@ const Screen: React.FC = () => {
     const linkRoute = (title: string, route: string): React.ReactNode => {
         return <Link to={route}>{title}</Link>
     }
-    const items: MenuItem[] = [
-        getItem(linkRoute('首页', 'home'), 'home', <UserOutlined />),
-        getItem('用户管理', 'user', <UserOutlined />, [
-            getItem(linkRoute('用户列表', 'user-list'), 'user-list'),
-        ])
-    ];
+    // const items: MenuItem[] = [
+    //     getItem(linkRoute('首页', 'home'), 'home', <UserOutlined />),
+    //     getItem('用户管理', 'user', <UserOutlined />, [
+    //         getItem(linkRoute('用户列表', 'user-list'), 'user-list'),
+    //     ])
+    // ];
 
-    const itemt: any = (RouterTreeMock: RouterTree[] = [],arr:MenuItem[] = []) => {
+    const dynamicItems:any = (RouterTreeMock: RouterTree[] = [],arr:MenuItem[] = []) => {
         RouterTreeMock.map((item)=>{
             if(!item.children) {
                 if(item.view) {
-                    const linkitem =  getItem(linkRoute(item.name, item.route), item.route, <UserOutlined />)
-                    arr.push(linkitem as never)
+                    const linkItem =  getItem(linkRoute(item.name, item.route), item.route, <UserOutlined />)
+                    arr.push(linkItem)
                 }
             }else{
                 if(item.view) {
-                    const linkitem =  getItem(item.name,item.route, <UserOutlined />,itemt(item.children,[]))
-                    arr.push(linkitem as never)
+                    const linkItem =  getItem(item.name,item.route, <UserOutlined />,dynamicItems(item.children,[]))
+                    arr.push(linkItem)
                 }
             }
         })
         return arr
     }
-
-    console.log(itemt(RouterTreeMock,[]));
     
     const onOpenChange: MenuProps['onOpenChange'] = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -121,7 +119,7 @@ const Screen: React.FC = () => {
                     theme='dark'
                     openKeys={openKeys}
                     onOpenChange={onOpenChange}
-                    items={itemt(RouterTreeMock,[])}
+                    items={dynamicItems(RouterTreeMock,[])}
                 />
             </Sider>
             <Layout style={{ marginLeft: 200 }}>

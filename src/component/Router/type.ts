@@ -35,6 +35,6 @@ export const RouterTreeMock: RouterTree[] = [
     }
 ]
 
-export interface iroutes {
+export interface RoutesMap {
     [index: string]: ReactNode,
 }
