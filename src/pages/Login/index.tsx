@@ -19,14 +19,24 @@ export default function Login() {
 
   const onFinish = (value:login) => {
     setLoading(true)
-    http.post('',value).then(()=>{
-      message.success('登录成功')
-      navigate('/home')
-      setLoading(false)
+    http.post('/login',value).then((res)=>{
+      getRouter()
+      // document.cookie = "url=" + encodeURIComponent(res.studentId)
     }).catch(()=>{
       form.setFieldsValue({
         password:''
       })
+      setLoading(false)
+    })
+  }
+
+  const getRouter = () => {
+    setLoading(true)
+    http.post('/name').then(()=>{
+      message.success('登录成功')
+      window.location.href = '/home'
+      setLoading(false)
+    }).catch(()=>{
       setLoading(false)
     })
   }

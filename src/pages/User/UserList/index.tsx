@@ -61,7 +61,7 @@ export default function UserList() {
     }
   ];
   const [newColumns,setNewColumns] = useState<ColumnsType<IUser>>(columns)
-  const [userList, setUserList] = useState<IUser[]>(defalutUserList)
+  const [userList, setUserList] = useState<IUser[]>([])
   const [gradeList, setGradeList] = useState<IFilterList[]>([])
   const [roleList, setRoleList] = useState<IFilterList[]>([])
   const [collegeList, setCollegeList] = useState<IFilterList[]>([])
@@ -71,7 +71,7 @@ export default function UserList() {
   const navigate = useNavigate()
   useEffect(() => {
     setNewColumns([...columns,renderOperation()])
-    // getList()
+    getList()
   }, [])
 
   const renderOperation = () => {
@@ -87,6 +87,7 @@ export default function UserList() {
   }
 
   const getList = () => {
+    if(loading) return
     setLoading(true)
     http.post('/user/list').then((res) => {
       setUserList(lodash.get(res, 'userList', []))

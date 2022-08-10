@@ -1,6 +1,7 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { createFromIconfontCN, HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu, MenuProps } from 'antd';
+import moment from 'moment'
 import './index.less'
 import { Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from "../../redux/hooks";
@@ -16,9 +17,9 @@ const { Header, Content, Footer, Sider } = Layout;
 // 所有可展开节点key值
 const rootSubmenuKeys = ['user-manage']
 const defaultSelectedKeys = [window.location.pathname]
-const routesMapIcon:RoutesMapIcon = {
+const routesMapIcon: RoutesMapIcon = {
     '/home': <HomeOutlined />,
-    'user-manage': <UserOutlined /> 
+    'user-manage': <UserOutlined />
 }
 
 // 此处规则:  /route ---->  所有叶子节点
@@ -28,10 +29,17 @@ const routesMapIcon:RoutesMapIcon = {
 const Screen: React.FC = () => {
 
     const { userInfo } = useAppSelector(selectUser)
+    
+    const [time, setTime] = useState(moment().format("YYYY-MM-DD HH:mm:ss"))
+
+    useEffect(() => {
+        setInterval(() => {
+            setTime(moment().format("YYYY-MM-DD HH:mm:ss"))
+        }, 1000);
+    }, [time])
 
     const [openKeys, setOpenKeys] = useState(window.location.pathname.split('/'));
-    console.log(window.location.pathname.split('/'));
-    
+
     const getItem = (
         label: React.ReactNode,
         key: React.Key,
@@ -68,10 +76,6 @@ const Screen: React.FC = () => {
         return arr
     }
 
-    const renderIcon = (url: string = '') => createFromIconfontCN({
-        scriptUrl: url,
-    });
-
 
     const onOpenChange: MenuProps['onOpenChange'] = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -107,7 +111,10 @@ const Screen: React.FC = () => {
                 />
             </Sider>
             <Layout style={{ marginLeft: 200 }}>
-                <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
+                <Header className="site-layout-sub-header-background">
+                    <span className='normal'>现在是</span><span className='high-light'>{time}</span>
+                    <span className='normal'>欢迎</span><span className='high-light'>{'王五'}</span>
+                </Header>
                 <Content style={{ margin: '10px 10px 0' }}>
                     <div className="site-layout-background">
                         <Outlet />

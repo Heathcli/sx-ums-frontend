@@ -59,9 +59,11 @@ export default function SubFilter(props:IProps<IFilterList>) {
                         style={{ width: 100 }}
                         allowClear
                         onChange={submit}>
-                        <Option value={2019}>2019</Option>
-                        <Option value={2020}>2020</Option>
-                        <Option value={2021}>2021</Option>
+                        {
+                            props.gradeList.map((item)=>{
+                                return  <Option key={item.code} value={item.code}>{item.name}</Option>
+                            })
+                        }
                     </Select>
                 </Item>
                 <Item label="学院" name="college">

@@ -14,7 +14,7 @@ function App() {
 }, [])
 
 const getUserInfo = async () => {
-    await http.post('/api/name').then((res) => {
+    await http.post('/name').then((res) => {
         dispatch(setUserInfo(res))
     }).catch(() => {
         navigate('/login')

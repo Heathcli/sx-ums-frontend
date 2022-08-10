@@ -2,7 +2,10 @@ import { message } from 'antd'
 import lodash from 'lodash'
 import axios from 'axios'
 
-const instance = axios.create({ baseURL: 'http://localhost:3333/' })
+const instance = axios.create({ 
+    baseURL: 'http://localhost:3333/api',
+    withCredentials:true
+ })
 
 const success = (res, resolve, reject) => {
     if (res.data.code === 0) {
@@ -10,6 +13,9 @@ const success = (res, resolve, reject) => {
     } else if (lodash.get(res, 'data.msg')) {
         reject(res.data.msg);
         message.error(res.data.msg);
+        if(lodash.get(res, 'data.code')===-99 && window.location.href !== '/login') {
+            // window.location.href = '/login'
+        }
     } else {
         reject('系统异常');
         message.error('系统异常');
