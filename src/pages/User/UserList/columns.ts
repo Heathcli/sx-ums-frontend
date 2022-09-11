@@ -1,7 +1,7 @@
 import { ColumnsType } from "antd/lib/table";
-import { IUser } from "./types";
+import { User } from "./types";
 
-const column: ColumnsType<IUser> = [
+const column: ColumnsType<User> = [
     {
         title: '学号',
         dataIndex: 'studentId',

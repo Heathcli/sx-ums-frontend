@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userInfoRedecer from '../slice/userSlice'
+import userInfoReducer from '../slice/userSlice'
+import loadingReducer from '../slice/loadingSlice'
 
 export const store = configureStore({
   reducer: {
-    userInfo:userInfoRedecer
+    userInfo:userInfoReducer,
+    loading:loadingReducer
   },
   middleware:(getDefalutMiddleware)=>
     getDefalutMiddleware({

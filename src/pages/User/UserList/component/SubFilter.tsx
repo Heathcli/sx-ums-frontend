@@ -2,8 +2,8 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Form, Input, Select } from 'antd'
 import qs from 'qs'
 import React, { useEffect } from 'react'
-import { IFilterList } from '../../../../types'
-import { ISubFilter } from '../types'
+import { FilterList } from '../../../../types'
+import { SubFilterType } from '../types'
 
 const Item = Form.Item
 const { Option } = Select
@@ -15,7 +15,7 @@ interface IProps<T> {
     positionList:T[]
 }
 
-export default function SubFilter(props:IProps<IFilterList>) {
+export default function SubFilter(props:IProps<FilterList>) {
 
     const [form] = Form.useForm()
     useEffect(() => {
@@ -29,8 +29,8 @@ export default function SubFilter(props:IProps<IFilterList>) {
     }, [])
 
     const submit = () => {
-        form.validateFields().then((values: ISubFilter) => {
-            let filter: ISubFilter = {}
+        form.validateFields().then((values: SubFilterType) => {
+            let filter: SubFilterType = {}
             for (let attr in values) {
                 if (values[attr]) {
                     filter[attr] = values[attr]

@@ -10,63 +10,28 @@ import SubHeader from './component/SubHeader';
 
 import http from '../../../libs/http';
 
-import { IUser } from './types';
+import { User } from './types';
 
 import columns from './columns';
 import './index.less'
-import { IFilterList } from '../../../types';
+import { FilterList } from '../../../types';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { selectLoading, setLoading } from '../../../redux/slice/loadingSlice';
 
 
 
 export default function UserList() {
-  const defalutUserList = [
-    {
-      studentId:201910428215,
-      name:'string',
-      grade:2019,
-      gradeId:2019,
-      college:'电子信息与电气工程学院',
-      collegeId:1,
-      professionalClass:'通信2班',
-      role:'软件',
-      roleId:4,
-      position:'方向组长',
-      positionId:1
-    },
-    {
-      studentId:201910428216,
-      name:'string',
-      grade:2019,
-      gradeId:2019,
-      college:'电子信息与电气工程学院',
-      collegeId:1,
-      professionalClass:'通信2班',
-      role:'软件',
-      roleId:4,
-      position:'方向组长',
-      positionId:1
-    },
-    {
-      studentId:201910428217,
-      name:'string',
-      grade:2019,
-      gradeId:2019,
-      college:'电子信息与电气工程学院',
-      collegeId:1,
-      professionalClass:'通信2班',
-      role:'软件',
-      roleId:4,
-      position:'方向组长',
-      positionId:1
-    }
-  ];
-  const [newColumns,setNewColumns] = useState<ColumnsType<IUser>>(columns)
-  const [userList, setUserList] = useState<IUser[]>([])
-  const [gradeList, setGradeList] = useState<IFilterList[]>([])
-  const [roleList, setRoleList] = useState<IFilterList[]>([])
-  const [collegeList, setCollegeList] = useState<IFilterList[]>([])
-  const [positionList, setPositionList] = useState<IFilterList[]>([])
-  const [loading, setLoading] = useState(false)
+
+  const [newColumns,setNewColumns] = useState<ColumnsType<User>>(columns)
+  const [userList, setUserList] = useState<User[]>([])
+  const [gradeList, setGradeList] = useState<FilterList[]>([])
+  const [roleList, setRoleList] = useState<FilterList[]>([])
+  const [collegeList, setCollegeList] = useState<FilterList[]>([])
+  const [positionList, setPositionList] = useState<FilterList[]>([])
+  // const [loading, setLoading] = useState(false)
+
+  const { loading } = useAppSelector(selectLoading)
+  const dispatch = useAppDispatch()
 
   const navigate = useNavigate()
   useEffect(() => {
@@ -77,7 +42,7 @@ export default function UserList() {
   const renderOperation = () => {
     return {
       title:'操作',
-      render:(item:IUser)=>{
+      render:(item:User)=>{
         return <div className='operation'>
            <Button type="link" onClick={()=>navigate(`/user-manage/mod/${item.studentId}`)}>编辑</Button>
            <Button danger type="link" onClick={()=>{}}>删除</Button>
@@ -88,16 +53,16 @@ export default function UserList() {
 
   const getList = () => {
     if(loading) return
-    setLoading(true)
+    dispatch(setLoading(true))
     http.post('/user/list').then((res) => {
       setUserList(lodash.get(res, 'userList', []))
       setGradeList(lodash.get(res, 'gradeList', []))
       setRoleList(lodash.get(res, 'roleList', []))
       setCollegeList(lodash.get(res, 'collegeList', []))
       setPositionList(lodash.get(res, 'positionList', []))
-      setLoading(false)
+      dispatch(setLoading(false))
     }).catch(() => {
-      setLoading(false)
+      dispatch(setLoading(false))
     })
   }
   return (
@@ -113,6 +78,7 @@ export default function UserList() {
       <SxTable
         dataSource={userList}
         columns={newColumns}
+        pageSize={20}
         loading={loading}
       />
     </div>

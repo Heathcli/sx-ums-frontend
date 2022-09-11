@@ -1,27 +1,35 @@
-import Screen from '../Screen'
 import React, { ReactNode } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import Home from '../../pages/Home'
+import Screen from '../Screen'
 import Login from '../../pages/Login'
-import UserList from '../../pages/User/UserList'
-import Edit from '../../pages/User/UserList/Edit'
-import { useAppSelector } from '../../redux/hooks'
-import { selectUser } from '../../redux/slice/userSlice'
 import NotFound from '../../pages/NotFound'
 
-const routesMapComponent: any = [
-    { '/home': <Home /> },
-    { '/user-manage/list': <UserList /> },
-    { '/user-manage/add': <Edit /> },
-    { '/user-manage/mod/:id': <Edit /> }
-]
+const req = require.context(
+    '../../pages',
+    true,
+    /route\.ts?$/
+  );
 
 export default function Router() {
-    const { userInfo } = useAppSelector(selectUser)
+
+    const getRoute = () => {
+        return req
+        .keys()
+        .map(k => req(k).default)
+        .reduce((result, m) => {
+          if (Array.isArray(m)) {
+            return result.concat(m);
+          } else {
+            return result.concat([m]);
+          }
+        }, [])
+    }
 
     const renderRouter: any = () => {
-        return routesMapComponent.map((item:any)=>{
-            return <Route path={Object.keys(item)[0]} key={Object.keys(item)[0]} element={Object.values(item)[0] as ReactNode}></Route>
+        const routeList = getRoute()
+        return routeList.map((item:any)=>{
+            let Component = item.component
+            return <Route path={item.path} key={item.path} element={<Component/>}></Route>
         })
     }
 

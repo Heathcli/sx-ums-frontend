@@ -6,7 +6,11 @@ import './index.less'
 const Item = Form.Item
 const Option = Select.Option
 
-export default function Edit() {
+interface Props {
+    isAdd?:false
+}
+
+export default function Edit(props:Props) {
 
     const [form] = Form.useForm()
     const navigate = useNavigate()
@@ -20,7 +24,7 @@ export default function Edit() {
 
 
     useEffect(() => {
-        if (id) {
+        if (props.isAdd) {
             modInit(Number(id))
         } else {
             addInit()
